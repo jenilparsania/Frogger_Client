@@ -7,6 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -19,6 +25,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class GamePrepClient  extends JFrame implements KeyListener, ActionListener{
+	
+	final int SERVER_PORT = 5556;
+	final int CLIENT_PORT = 5555;
+	
+	
+	
+	
 	//declare copies of our character
 	private Frog frog;
 	private Car car;
@@ -403,6 +416,100 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 		content.setFocusable(true);
 		
 		
+		//ESTABLISH A LISTENING SERVER ON THE CLIENT
+		// THAT PASSES OFF to ClientService(all variables)
+		// video : 1:08:00
+		
+		
+		//ClientService myService = new ClientService(s, frog, startButton,saveButton , frogLabel);
+		
+		//set up a server 
+		// create a thread (infinite while loop)
+		
+		// setting up a listening server 
+		Thread t1 = new Thread(new Runnable () {
+
+			@Override
+			public void run() {
+				synchronized(this) {
+					ServerSocket client;
+					
+					try {
+						client = new ServerSocket(CLIENT_PORT);
+						
+						while(true) {
+							Socket s2;
+							try {
+								s2 = client.accept();
+								
+								ClientService myService = new ClientService(s2, frog, startButton,saveButton , frogLabel);
+								
+								Thread t2 = new Thread(myService);
+								
+								t2.start();
+									
+							}catch(IOException e) {
+								e.printStackTrace();
+							}
+							System.out.println("client Connected");
+						}
+						
+					}catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			}
+			
+		});
+		
+		t1.start();
+		
+		//Threads 
+		// requests for GETFROG, MOVEFROG;
+		
+		Thread t2 = new Thread(new Runnable() {
+	    	public void run() {
+	    		synchronized(this) {
+	    			while (true) {
+	    				
+	    		    	Socket s;
+						try {
+							s = new Socket("localhost",SERVER_PORT);
+							//Initialize data stream to send data out
+		    		    	OutputStream outstream = s.getOutputStream();
+		    		    	PrintWriter out = new PrintWriter(outstream);
+		    		    	
+		    		    	
+		    		    	String command = "GETFROG\n";
+		    		    	System.out.println("Sending : "+command);
+		    		    	out.println(command);
+		    		    	out.flush();
+		    		    	s.close();
+		    		    	try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    		    	
+	    		    	
+	    		    	//video : 1:13:00
+	    	
+	    		}
+	    	}
+	    	}
+	    	
+	    });
+		t2.start();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
@@ -429,6 +536,28 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 		//detech the direction
 		if(e.getKeyCode()==KeyEvent.VK_UP) { // hard coded the values where frog might need to move double steps
 			//MOVEDOCTER UP\n
+			try {
+				Socket s = new Socket("localhost",SERVER_PORT);
+				
+				OutputStream outstream = s.getOutputStream();
+				PrintWriter out = new PrintWriter(outstream);
+				
+				String command = "MOVEFROG UP\n";
+				
+				System.out.println("Sending: " + command);
+				out.println(command);
+				out.flush();
+				
+				s.close();
+				
+				
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			/*
 			if(y<281) {
 				y-=(GameProperties.CHARACTER_STEP*2);
