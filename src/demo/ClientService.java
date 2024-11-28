@@ -29,6 +29,9 @@ public class ClientService  implements Runnable{
 	private JLabel frogLabel;
 	private JButton startButton;
 	private JButton saveButton;
+	private JLabel[] carLabels;
+	private JLabel[] carLabels1;
+	private JLabel[] carLabels2;
 	
 	//variables to process our incoming socket data
 	private Scanner in;
@@ -40,13 +43,19 @@ public class ClientService  implements Runnable{
 	
 	// implement score as of the class 
 	
-	public ClientService(Socket s , Frog frog, JButton startButton,JButton saveButton , JLabel frogLabel) {
+	public ClientService(Socket s , Frog frog, JButton startButton,JButton saveButton , JLabel frogLabel, Car cars[], Car cars2[],  Car cars1[], JLabel[] carLabels, JLabel[] carLabels1, JLabel[] carLabels2) {
 		
 		this.s = s;
 		this.frog = frog;
 		this.frogLabel = frogLabel;
 		this.startButton = startButton;
 		this.saveButton = saveButton;
+		this.cars = cars;
+		this.cars2 = cars2;
+		this.cars1 = cars1;
+		this.carLabels = carLabels;
+		this.carLabels1 = carLabels1;
+		this.carLabels2 = carLabels2;
 		
 	}
 	
@@ -90,6 +99,7 @@ public class ClientService  implements Runnable{
 	}
 	
 	private void executeCommand(String command) throws   IOException {
+		
 		if(command.equals("MOVEFROG")) {
 			//MOVEFROG UP
 			//MOVEFROG DOWN
@@ -137,38 +147,54 @@ public class ClientService  implements Runnable{
 			
 		}else if(command.equals("CARDATA")) {
 			
-			int x , y = 0;
-			String moving = "";
+			int x1 , y1 , x2,y2, x3 , y3 , x4, y4= 0;
+			String moving = "true";
 			
-			 x = in.nextInt();  // first car's x
+			 x1 = in.nextInt();  // first car's x
 			
-			 y = in.nextInt(); // first car's y
-			 moving = in.next(); // first car's moving
+			 y1 = in.nextInt(); // first car's y
+			// moving = in.next(); // first car's moving
+			 
+			cars[0].setX(x1);
+			cars[0].setY(y1);
 			
-			cars[0].setX(x);
-			cars[0].setY(y);
-			if(moving.equals("true")) {
-				cars[0].setMoving(true);
-			}else {
-				cars[0].setMoving(false);
-			}
+			cars[0].setMoving(true);
+
 			
-//			carLabels[1].setLocation(cars[1].getX(), cars[1].getY());'
+			carLabels[0].setLocation(cars[0].getX(), cars[0].getY());
 			
 			
-			
-			 x = in.nextInt();  // second car's x
+			 x2 = in.nextInt();  // second car's x
 				
-			 y = in.nextInt(); // second car's y
-			 moving = in.next(); // second car's moving
+			 y2 = in.nextInt(); // second car's y
 			
-			cars[1].setX(x);
-			cars[1].setY(y);
-			if(moving.equals("true")) {
-				cars[1].setMoving(true);
-			}else {
-				cars[1].setMoving(false);
-			}
+			
+			cars[1].setX(x2);
+			cars[1].setY(y2);
+		
+			cars[1].setMoving(true);
+			
+			carLabels[1].setLocation(cars[1].getX(), cars[1].getY());
+			
+			x3 = in.nextInt();  // second car's x
+			
+			 y3 = in.nextInt(); // second car's y
+			
+			
+			cars[2].setX(x3);
+			cars[2].setY(y3);
+			cars[2].setMoving(true);
+			carLabels[2].setLocation(cars[2].getX(), cars[2].getY());
+			
+			x4 = in.nextInt();  // second car's x
+			
+			 y4 = in.nextInt(); // second car's y
+			
+			
+			cars[3].setX(x3);
+			cars[3].setY(y3);
+			cars[3].setMoving(true);
+			carLabels[3].setLocation(cars[3].getX(), cars[3].getY());
 			
 			
 			
