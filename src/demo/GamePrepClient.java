@@ -30,8 +30,6 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 	final int CLIENT_PORT = 5555;
 	
 	
-	
-	
 	//declare copies of our character
 	private Frog frog;
 	private Car car;
@@ -90,10 +88,6 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 		log = new Log(7,71,40,110,"log-big.png");
 //		this.setupDatabase();
 
-		
-		
-		
-		 		 
 		
 		
 		setSize(GameProperties.SCREEN_WIDTH,GameProperties.SCREEN_HEIGHT);
@@ -491,6 +485,11 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 		    		    	out.println(command);
 		    		    	out.flush();
 		    		    	
+		    		    	command = "GETLOGS\n";
+		    		    	System.out.println("Sending : "+command);
+		    		    	out.println(command);
+		    		    	out.flush();
+		    		    	
 		    		    	s.close();
 		    		    	try {
 								Thread.sleep(500);
@@ -509,7 +508,7 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 	    		    	
 	    		    	//video : 1:13:00
 
-	    				
+	    				/*
 	    		    	Socket s9;
 						try {
 							s9 = new Socket("localhost",SERVER_PORT);
@@ -535,7 +534,7 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}
+						} */
 	    		    	
 	    		    	
 	    		    	//video : 1:13:00
