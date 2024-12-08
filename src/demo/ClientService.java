@@ -15,8 +15,6 @@ import demo.Log;
 
 public class ClientService  implements Runnable{
 
-
-
 	//declare but not initialize the passed variables from
 	// BankServer (we  need to use the originals)
 	private Socket s;
@@ -32,6 +30,9 @@ public class ClientService  implements Runnable{
 	private JLabel[] carLabels;
 	private JLabel[] carLabels1;
 	private JLabel[] carLabels2;
+	private JLabel[] logLabels;
+	private JLabel[] logLabels1;
+	private JLabel[] logLabels2;
 	
 	//variables to process our incoming socket data
 	private Scanner in;
@@ -43,7 +44,7 @@ public class ClientService  implements Runnable{
 	
 	// implement score as of the class 
 	
-	public ClientService(Socket s , Frog frog, JButton startButton,JButton saveButton , JLabel frogLabel, Car cars[], Car cars2[],  Car cars1[], JLabel[] carLabels, JLabel[] carLabels1, JLabel[] carLabels2) {
+	public ClientService(Socket s , Frog frog, JButton startButton,JButton saveButton , JLabel frogLabel, Car cars[], Car cars2[],  Car cars1[], Log logs[],Log logs1[],Log logs2[],JLabel[] carLabels, JLabel[] carLabels1, JLabel[] carLabels2 , JLabel[] logLabels, JLabel[] logLabels1,JLabel[] logLabels2) {
 		
 		this.s = s;
 		this.frog = frog;
@@ -53,9 +54,16 @@ public class ClientService  implements Runnable{
 		this.cars = cars;
 		this.cars2 = cars2;
 		this.cars1 = cars1;
+		this.logs = logs;
+		this.logs2 = logs2;
+		this.logs1 = logs1;
 		this.carLabels = carLabels;
 		this.carLabels1 = carLabels1;
 		this.carLabels2 = carLabels2;
+		this.logLabels = logLabels;
+		this.logLabels2 = logLabels2;
+		this.logLabels1 = logLabels1;
+		
 		
 	}
 	
@@ -100,44 +108,109 @@ public class ClientService  implements Runnable{
 	
 	private void executeCommand(String command) throws   IOException {
 		
-		if(command.equals("MOVEFROG")) {
-			//MOVEFROG UP
-			//MOVEFROG DOWN
-			//extract the string passed through socket
-			String direction = in.next();
+		if(command.equals("LOGDATA")) {
+			int x1 , y1 , x2,y2, x3 , y3 , x4, y4= 0;
+			int x5 , y5 , x6,y6, x7 , y7 , x8, y8= 0;
+			int x9 , y9 , x10,y10, x11 , y11 , x12, y12= 0;
 			
-			//refer the frog moving in the game Prep project
-			if(direction.equals("UP")) {
-				int y = frog.getY();
-				y -= GameProperties.CHARACTER_STEP;
-				frog.setY(y);	
-			}
+			x1 = in.nextInt();
+			y1 = in.nextInt();
+			logs[0].setX(x1);
+			logs[0].setY(y1);
+			logs[0].setMoving(true);
+			logs[0].setDirection(true);
+			logLabels[0].setLocation(logs[0].getX(), logs[0].getY());
 			
-			if(direction.equals("DOWN")) {
-				int y = frog.getY();
-				y+= GameProperties.CHARACTER_STEP;
-				frog.setY(y);
-			}
+			x2 = in.nextInt();
+			y2 = in.nextInt();
+			logs[1].setX(x2);
+			logs[1].setY(y2);
+			logs[1].setMoving(true);
+			logs[1].setDirection(true);
+			logLabels[1].setLocation(logs[1].getX(), logs[1].getY());
 			
-			if(direction.equals("LEFT")) {
-				int x = frog.getX();
-				x-= GameProperties.CHARACTER_STEP;
-				frog.setX(x);
-			}
+			x3 = in.nextInt();
+			y3 = in.nextInt();
+			logs[2].setX(x3);
+			logs[2].setY(y3);
+			logs[2].setMoving(true);
+			logs[2].setDirection(true);
+			logLabels[2].setLocation(logs[2].getX(), logs[2].getY());
 			
-			if(direction.equals("RIGHT")) {
-				int x = frog.getX();
-				x+= GameProperties.CHARACTER_STEP;
-				frog.setX(x);
-			}
+			x4 = in.nextInt();
+			y4 = in.nextInt();
+			logs[3].setX(x4);
+			logs[3].setY(y4);
+			logs[3].setMoving(true);
+			logs[3].setDirection(true);
+			logLabels[3].setLocation(logs[3].getX(), logs[3].getY());
+			
+			x5 = in.nextInt();
+			y5 = in.nextInt();
+			logs1[0].setX(x5);
+			logs1[0].setY(y5);
+			logs1[0].setMoving(true);
+			logs1[0].setDirection(true);
+			logLabels1[0].setLocation(logs1[0].getX(), logs1[0].getY());
+
+			x6 = in.nextInt();
+			y6 = in.nextInt();
+			logs1[1].setX(x6);
+			logs1[1].setY(y6);
+			logs1[1].setMoving(true);
+			logs1[1].setDirection(true);
+			logLabels1[1].setLocation(logs1[1].getX(), logs1[1].getY());
+
+			x7 = in.nextInt();
+			y7 = in.nextInt();
+			logs1[2].setX(x7);
+			logs1[2].setY(y7);
+			logs1[2].setMoving(true);
+			logs1[2].setDirection(true);
+			logLabels1[2].setLocation(logs1[2].getX(), logs1[2].getY());
+
+			x8 = in.nextInt();
+			y8 = in.nextInt();
+			logs1[3].setX(x8);
+			logs1[3].setY(y8);
+			logs1[3].setMoving(true);
+			logs1[3].setDirection(true);
+			logLabels1[3].setLocation(logs1[3].getX(), logs1[3].getY());
+
+			x9 = in.nextInt();
+			y9 = in.nextInt();
+			logs2[0].setX(x9);
+			logs2[0].setY(y9);
+			logs2[0].setMoving(true);
+			logs2[0].setDirection(true);
+			logLabels2[0].setLocation(logs2[0].getX(), logs2[0].getY());
+
+			x10 = in.nextInt();
+			y10 = in.nextInt();
+			logs2[1].setX(x10);
+			logs2[1].setY(y10);
+			logs2[1].setMoving(true);
+			logs2[1].setDirection(true);
+			logLabels2[1].setLocation(logs2[1].getX(), logs2[1].getY());
+
+			x11 = in.nextInt();
+			y11 = in.nextInt();
+			logs2[2].setX(x11);
+			logs2[2].setY(y11);
+			logs2[2].setMoving(true);
+			logs2[2].setDirection(true);
+			logLabels2[2].setLocation(logs2[2].getX(), logs2[2].getY());
+
+			x12 = in.nextInt();
+			y12 = in.nextInt();
+			logs2[3].setX(x12);
+			logs2[3].setY(y12);
+			logs2[3].setMoving(true);
+			logs2[3].setDirection(true);
+			logLabels2[3].setLocation(logs2[3].getX(), logs2[3].getY());
 			
 			
 			return ;
-			
-			
-			
-		
-			
 		}else if(command.equals("STARTGAME")) {
 			// loop through and start cars and logs moving 
 			
@@ -253,6 +326,8 @@ public class ClientService  implements Runnable{
 			frogLabel.setLocation(frog.getX(), frog.getY());
 			
 			return;
+		}else if(command.equals("COLLISIONSDETECTED")) {
+			
 		}
 		
 		else {

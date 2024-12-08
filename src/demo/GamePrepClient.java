@@ -436,7 +436,7 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 							try {
 								s2 = client.accept();
 								
-								ClientService myService = new ClientService(s2, frog, startButton,saveButton , frogLabel, cars, cars1,cars2, carLabels,carLabels1,carLabels2);
+								ClientService myService = new ClientService(s2, frog, startButton,saveButton , frogLabel, cars, cars1,cars2, logs,logs1,logs2,  carLabels,carLabels1,carLabels2 , logLabels,logLabels1,logLabels2);
 								
 								Thread t2 = new Thread(myService);
 								
@@ -787,39 +787,7 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 				e1.printStackTrace();
 			}
 			
-			// video : 50:00
-			/*
-			if(cars[0].getMoving()) { // just to check
-				
-				cars[0].stopThread();
-				
-				log.stopThread();
-			}else {
-				// for(int i=0;i<cars.length;i++) 
-				for(int z = 0;z < cars.length;z++) {
-					if(cars[z].getMoving()) {
-						cars[z].stopThread();
-						cars1[z].stopThread();
-						cars2[z].stopThread();
-						log.stopThread();
-						logs[z].stopThread();
-						logs1[z].stopThread();
-						logs2[z].stopThread();
-						gameEndsLose(); 
-						
-					}else {
-						cars[z].startThread();
-						cars1[z].startThread();
-						cars2[z].startThread();
-						log.startThread();
-						logs[z].startThread();
-						logs1[z].startThread();
-						logs2[z].startThread();
-					}
-				}*
-				
-
-			}*/
+			
 		}
 		
 		if(e.getSource() == saveButton) {
@@ -829,6 +797,32 @@ public class GamePrepClient  extends JFrame implements KeyListener, ActionListen
 		
 		if(e.getSource() == stopButton) {
 			System.out.println("stop button triggered");
+
+			try {
+				Socket s = new Socket("localhost",SERVER_PORT);
+				
+				OutputStream outstream = s.getOutputStream();
+				PrintWriter out = new PrintWriter(outstream);
+				
+				String command = "STOPGAME\n";
+				
+				System.out.println("Sending: " + command);
+				out.println(command);
+				out.flush();
+				
+				s.close();
+				
+				
+			} catch (UnknownHostException e1) {
+				
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				
+				e1.printStackTrace();
+			}
+			
+			
+		
 //			this.stopAllCars();
 //			this.stopAllLogs();
 		}
